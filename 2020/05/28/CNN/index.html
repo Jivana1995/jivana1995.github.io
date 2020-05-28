@@ -87,8 +87,9 @@
 <meta property="og:description" content="Convoluntional Neural Network《卷积神经网络研究综述》周飞燕 2017 计算机学报">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://jivana.top/images/CNN/001.png">
+<meta property="og:image" content="http://jivana.top/images/CNN/002.png">
 <meta property="article:published_time" content="2020-05-28T08:05:25.000Z">
-<meta property="article:modified_time" content="2020-05-28T09:01:47.885Z">
+<meta property="article:modified_time" content="2020-05-28T12:03:25.326Z">
 <meta property="article:author" content="Jivana">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://jivana.top/images/CNN/001.png">
@@ -301,9 +302,18 @@
       
 
       
-        <p>Convoluntional Neural Network<br>《卷积神经网络研究综述》周飞燕 2017 计算机学报<br><a id="more"></a><br>那么什么是卷积神经网络？<br>为什么要使用卷积神经网络？</p>
-<p>卷积神经网络的发展过程主要经过了人工神经网络-多层感知机-卷积神经网络<br><img src="/images/CNN/001.png"><br>观察一个神经元细胞，可以发现其有输入信号x，偏置量b和输出信号y，可以有公式y=f(x)+b <script type="math/tex">y_i=f(x)+b</script>表示</p>
-<p>图像是由多个像素点组合而成的，从最简单的<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener"> MNIST</a>可以了解到。我们对一张图片进行了解<br><!-- ![alt](/images/test.jpg) --></p>
+        <p>Convoluntional Neural Network<br>《卷积神经网络研究综述》周飞燕 2017 计算机学报</p>
+<a id="more"></a>
+<p>那么什么是卷积神经网络？<br>为什么要使用卷积神经网络？</p>
+<p>神经元是组成神经网络的基本单元，下面是神经元的模型：<br><img src="/images/CNN/001.png"><br>对于一个由多个输入，一个偏置量和一个输出组成的神经元而言，其输入与输出的对应关系可以有以下公式表示：</p>
+<script type="math/tex; mode=display">y_i = f(b_j + \sum_{i=1}^{n}(x_i \times w_{ij}))</script><p>其中f($\cdot$)是激活函数，激活函数一般是非线性的可以是$ReLu$函数，$sigmoid$函数，$tanh(x)$函数。</p>
+<p>ps：为什么要使用激活函数？<br>如果没有激活函数或者说激活函数为线性函数，公式表示为</p>
+<script type="math/tex; mode=display">y_i = b_j + \sum_{i=1}^{n}(x_i \times w_{ij})</script><p>当你在多层神经结构应用的时候，就会发现无论是多少层神经网络，都可以用一层的线性组合表示，是一个线性的结构，无法解决非线性问题。相关问题，参考了<a href="https://blog.csdn.net/a6333230/article/details/80887062" target="_blank" rel="noopener" style="color:red">为什么要用激活函数???</a></p>
+<p>多层感知机（Multilayer Proceptron, MLP）是由输入层、隐含层（一层或者多层）及输出层构成的神经网络模型。如图所示，<br><img src="/images/CNN/002.png"><br>该模型包含了一层输入层，三层隐含层以及一层输出层。隐含层的每一个神经元与其相邻层的每一个神经元相连接，即全连接神经网络模型。假设$x_m^l$表示MLP中第$l$层第$m$个神经元的输入值，$y_m^l$和$b_m^l$表示第$l$层第$m$个神经元的输出值和偏置值，$w_m^{l-1}$表示该神经元与第$l-1$层第$i$个神经元的连接权值，则可以表示为：</p>
+<script type="math/tex; mode=display">x_m^l = b_m^l + \sum_{i=1}^{k}(w_im^{l-1} \times y_i^{l-1})</script><script type="math/tex; mode=display">y_m^l = f(x_m^l)</script><p>若使用多层感知机处理分类任务，会定义一个损失函数，可以将损失函数理解为处理的结果与期望之间的差异程度，通常使用范数对其进行定义，常见的范数定义有L1范数损失函数和L2范数损失函数.<br>L1范数损失函数也称为最小绝对值偏差（LAD）表示为：</p>
+<script type="math/tex; mode=display">L1 = \sum_{i=1}^n|Y_i-f(x_i)|</script><p>L2范数损失函数也称为最小平方误差（LSE）表示为：</p>
+<script type="math/tex; mode=display">L2 = \sum_{i=1}^n(Y_i-f(x_i))^2</script><p>因为损失函数表示的是实际结果与期望之间的差异程度，所以在训练的过程中，我们需要尽可能的是损失函数最小。对于L1损失函数而言，为了使损失函数最小，我们需要将实际结果尽可能的等于期望结果，这样两者之间的差异为0，这样的矩阵是稀疏的。对L2损失函数，只要两者尽可能的接近，可以通过平方使得两者之间的差值趋于0，得到的解更为多种多样。<br>参考了<a href="https://www.jianshu.com/p/d4c6f7b48928" target="_blank" rel="noopener" style="color:red">L1与L2损失函数和正则化的区别</a></p>
+<p>如何训练模型使得损失函数最小化？主要通过反向传播算法（Back Propagation, BP）与梯度下降算法进行结合实现，这里不细讲，可以看<a href="https://blog.csdn.net/ft_sunshine/article/details/90221691" target="_blank" rel="noopener" style="color:red">反向传播算法</a>和<a href="https://blog.csdn.net/qq_41800366/article/details/86583789" target="_blank" rel="noopener" style="color:red">梯度下降算法</a>。</p>
 
       
     </div>
@@ -337,6 +347,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/28/Latex/" rel="prev" title="Latex">
+                Latex <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -408,7 +422,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
