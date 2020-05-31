@@ -88,8 +88,11 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://jivana.top/images/CNN/001.png">
 <meta property="og:image" content="http://jivana.top/images/CNN/002.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1093303/201901/1093303-20190120113539659-455066516.gif">
+<meta property="og:image" content="http://jivana.top/images/CNN/004.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/1093303/201704/1093303-20170430195106397-414671399.jpg">
 <meta property="article:published_time" content="2020-05-28T08:05:25.000Z">
-<meta property="article:modified_time" content="2020-05-28T12:03:25.326Z">
+<meta property="article:modified_time" content="2020-05-31T07:25:41.370Z">
 <meta property="article:author" content="Jivana">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://jivana.top/images/CNN/001.png">
@@ -310,10 +313,16 @@
 <p>ps：为什么要使用激活函数？<br>如果没有激活函数或者说激活函数为线性函数，公式表示为</p>
 <script type="math/tex; mode=display">y_i = b_j + \sum_{i=1}^{n}(x_i \times w_{ij})</script><p>当你在多层神经结构应用的时候，就会发现无论是多少层神经网络，都可以用一层的线性组合表示，是一个线性的结构，无法解决非线性问题。相关问题，参考了<a href="https://blog.csdn.net/a6333230/article/details/80887062" target="_blank" rel="noopener" style="color:red">为什么要用激活函数???</a></p>
 <p>多层感知机（Multilayer Proceptron, MLP）是由输入层、隐含层（一层或者多层）及输出层构成的神经网络模型。如图所示，<br><img src="/images/CNN/002.png"><br>该模型包含了一层输入层，三层隐含层以及一层输出层。隐含层的每一个神经元与其相邻层的每一个神经元相连接，即全连接神经网络模型。假设$x_m^l$表示MLP中第$l$层第$m$个神经元的输入值，$y_m^l$和$b_m^l$表示第$l$层第$m$个神经元的输出值和偏置值，$w_m^{l-1}$表示该神经元与第$l-1$层第$i$个神经元的连接权值，则可以表示为：</p>
-<script type="math/tex; mode=display">x_m^l = b_m^l + \sum_{i=1}^{k}(w_im^{l-1} \times y_i^{l-1})</script><script type="math/tex; mode=display">y_m^l = f(x_m^l)</script><p>若使用多层感知机处理分类任务，会定义一个损失函数，可以将损失函数理解为处理的结果与期望之间的差异程度，通常使用范数对其进行定义，常见的范数定义有L1范数损失函数和L2范数损失函数.<br>L1范数损失函数也称为最小绝对值偏差（LAD）表示为：</p>
+<script type="math/tex; mode=display">x_m^l = b_m^l + \sum_{i=1}^{k}(w_im^{l-1} \times y_i^{l-1})</script><script type="math/tex; mode=display">y_m^l = f(x_m^l)</script><p>多层感知机优化时，会定义一个损失函数，可以将损失函数理解为处理的结果与期望之间的差异程度，通常使用范数对其进行定义，常见的范数定义有L1范数损失函数和L2范数损失函数.<br>L1范数损失函数也称为最小绝对值偏差（LAD）表示为：</p>
 <script type="math/tex; mode=display">L1 = \sum_{i=1}^n|Y_i-f(x_i)|</script><p>L2范数损失函数也称为最小平方误差（LSE）表示为：</p>
-<script type="math/tex; mode=display">L2 = \sum_{i=1}^n(Y_i-f(x_i))^2</script><p>因为损失函数表示的是实际结果与期望之间的差异程度，所以在训练的过程中，我们需要尽可能的是损失函数最小。对于L1损失函数而言，为了使损失函数最小，我们需要将实际结果尽可能的等于期望结果，这样两者之间的差异为0，这样的矩阵是稀疏的。对L2损失函数，只要两者尽可能的接近，可以通过平方使得两者之间的差值趋于0，得到的解更为多种多样。<br>参考了<a href="https://www.jianshu.com/p/d4c6f7b48928" target="_blank" rel="noopener" style="color:red">L1与L2损失函数和正则化的区别</a></p>
+<script type="math/tex; mode=display">L2 = \sum_{i=1}^n(Y_i-f(x_i))^2</script><p>因为损失函数表示的是实际结果与期望之间的差异程度，所以在训练的过程中，我们需要尽可能的是损失函数最小。</p>
+<p>最小平方损失函数L1正则化：</p>
+<script type="math/tex; mode=display">w^{\ast} = arg\min_w \sum_j(t(x_j)-\sum_iw_ih_i(x_j))^2 + \lambda \sum_{i=1}^k|w_i|</script><p>最小平方损失函数L2正则化：</p>
+<script type="math/tex; mode=display">w^{\ast} = arg\min_w \sum_j(t(x_j)-\sum_iw_ih_i(x_j))^2 + \lambda \sum_{i=1}^kw_i^2</script><p>在优化过程中，通常需要对损失函数添加一个正则项，防止拟合程度过高导致过拟合（即因为数据量小而模型大，导致数据过度关注某个样本的特殊点，造成数据的特殊，没有泛化能力）。对于L1正则化而言，为了使损失函数最小，我们需要将实际结果尽可能的等于期望结果，这样两者之间的差异为0，这样的权重矩阵是稀疏的。对L2损失函数，只要两者尽可能的接近，可以通过平方使得两者之间的差值趋于0，得到的解更为多种多样。<br>参考了<a href="https://www.jianshu.com/p/d4c6f7b48928" target="_blank" rel="noopener" style="color:red">L1与L2损失函数和正则化的区别</a></p>
 <p>如何训练模型使得损失函数最小化？主要通过反向传播算法（Back Propagation, BP）与梯度下降算法进行结合实现，这里不细讲，可以看<a href="https://blog.csdn.net/ft_sunshine/article/details/90221691" target="_blank" rel="noopener" style="color:red">反向传播算法</a>和<a href="https://blog.csdn.net/qq_41800366/article/details/86583789" target="_blank" rel="noopener" style="color:red">梯度下降算法</a>。</p>
+<p>讲到正题，什么是卷积神经网络？<br>卷积神经网络说到底，也是一个神经网络，他和全连接神经网络有相同的结构，都具有输入层、隐含层和输出层。<br>但是它具有全连接网络不具有的特性，那么为什么会叫卷积神经网络呢？因为它对隐含层进行了进一步的划分，全连接网络的隐含层都是相同的，只是深度有所增加。而卷积神经网络的隐含层则细分为卷积层、池化层以及全连接层。<br><img src="https://img2018.cnblogs.com/blog/1093303/201901/1093303-20190120113539659-455066516.gif" alt><br>如图所示， 左边第一列图像中浅蓝色的矩阵是原始图像的矩阵表示（图像由像素点组成，用矩阵表示），边缘的灰色是零填充，中间的两列均为卷积层的滤波器（卷积核），通过卷积运算，得到输出矩阵。这里卷积核的大小为3$ \times $3，滑动步长为2，若无填充，卷积后的图片大小为：</p>
+<script type="math/tex; mode=display">outMap = (\frac{inMap-Cwindow}{Cinterval}+1)</script><p>其中outMap为输出的特征面大小，inMap为输入特征面大小，Cinterval为滑动步长。<a href="https://www.cnblogs.com/skyfsm/p/6790245.html" target="_blank" rel="noopener" style="color:red">卷积层</a><br>卷积神经网络的另一个特点是权值共享，学过数字图像处理的同学一定知道垂直边缘检测，利用一个特殊的矩阵（核）$\left( \begin{array}{ccc}  1 &amp; 0 &amp; -1 \\1 &amp; 0 &amp; -1 \\1 &amp; 0 &amp; -1 \\\end{array} \right) $可以检测到图像的垂直方向的边缘信息。效果如图：<br><img src="/images/CNN/004.png"><br>卷积神经网络中的卷积核，也就类似于这些特殊的核，可以对图像的特征进行提取。在卷积层中，卷积核在图像矩阵滑动时，连接的权值是固定的，即同一个核在对图像提取特征时，目标是一致的（这一个卷积核主要提取边缘信息，另一个核就主要提取角落的信息，另一个就。。。）这样可以有效的减少参数的数量，减少计算量。<br>随后就是激活函数，激活函数紧跟在卷积层之后，对卷积的输出结果做非线性的映射。激活函数目前主要使用的是$ReLu$函数以及它的变种$LeakyReLu$函数，还有以前涉及的$sigmoid$函数和$tanh()$函数，这个的区别另外再说。<br>激活层之后会使用池化层对映射结果进行降低分辨率，获得具有空间不变形的特征，池化层主要起到二次提取特征的作用。常用的池化方法主要有最大值池化、均值池化和随机池化。<br><img src="https://images2015.cnblogs.com/blog/1093303/201704/1093303-20170430195106397-414671399.jpg"><br>上方的图像是使用$2\times2$最大池化，即在$2\times2$的范围内选择最大值输出。均值池化是对范围内所有的像素值求均值后输出，随机池化是在范围内选择随机数进行输出。每个池化效果不尽相同。<br>最后是全连接层，一般是经过多个卷积层和池化层后，连接一个或者一个以上全连接层。与MLP类似，全连接层的每个神经元与其前一层的所有神经元进行全连接。这个可以放在实例的部分再说。</p>
+<p>总结：<br>卷积神经网络是一种由人工神经网络发展而来的网络，因为其特征提取和参数共享等特点，可以大大减少训练时的计算量，加快训练速度，所以受到大量关注。<br>卷积神经网络的关键点在于卷积层，使用多个卷积核对输入的图像进行特征提取，可以得到不同的图像特征，定义的损失函数可以表示实际的输出结果与期望的输出结果之间的差异，通过反向传播算法和梯度下降算法对卷积核中的权重进行优化，最小化损失函数，最终训练出符合我们要求的模型（我们提供输入，通过模型，可以得到期望的输出），这个模型是一个黑盒状态，不同于机器学习的数学推理过程，我们不清楚神经网络的训练过程，所以卷积神经网络的可解释性较差。<br>坑：反向传播算法，梯度下降算法，激活函数，实例</p>
 
       
     </div>
